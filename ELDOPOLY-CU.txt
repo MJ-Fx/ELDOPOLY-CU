@@ -1,0 +1,12 @@
+index.html
+about.html
+services.html
+contact.html
+css/
+  style.css
+js/
+  script.js
+images/
+  (various images)
+videos/
+  hero-background.mp4
