@@ -1037,6 +1037,9 @@ img {
 }
 
 
+.footer-col ul li a {
+    color: var(--primary-white);
+}
 
 
 
