@@ -180,53 +180,70 @@
 
     <!-- ...existing code... -->
 <script>
-// Mobile menu toggle - Fixed version
+// Enhanced Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const nav = document.querySelector('.nav');
+    const body = document.body;
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
     
     mobileMenu.addEventListener('click', function(e) {
         e.stopPropagation();
-        nav.classList.toggle('active');
-        
-        // Change icon based on menu state
-        const icon = this.querySelector('i');
-        if (nav.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-        } else {
-            icon.className = 'fas fa-bars';
-            document.body.style.overflow = ''; // Re-enable scrolling
-        }
+        toggleMenu();
+    });
+    
+    // Close menu when clicking on overlay
+    overlay.addEventListener('click', function() {
+        closeMenu();
     });
     
     // Close menu when clicking on a link
     const navLinks = document.querySelectorAll('.nav ul li a');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            nav.classList.remove('active');
-            document.body.style.overflow = '';
-            mobileMenu.querySelector('i').className = 'fas fa-bars';
+            closeMenu();
         });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.nav') && !e.target.closest('.mobile-menu')) {
-            nav.classList.remove('active');
-            document.body.style.overflow = '';
-            mobileMenu.querySelector('i').className = 'fas fa-bars';
-        }
     });
     
     // Handle window resize
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) {
-            nav.classList.remove('active');
-            document.body.style.overflow = '';
-            mobileMenu.querySelector('i').className = 'fas fa-bars';
+            closeMenu();
         }
     });
+    
+    // Handle escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMenu();
+        }
+    });
+    
+    function toggleMenu() {
+        nav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Change icon based on menu state
+        const icon = mobileMenu.querySelector('i');
+        if (nav.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+            body.style.overflow = 'hidden';
+        } else {
+            icon.className = 'fas fa-bars';
+            body.style.overflow = '';
+        }
+    }
+    
+    function closeMenu() {
+        nav.classList.remove('active');
+        overlay.classList.remove('active');
+        mobileMenu.querySelector('i').className = 'fas fa-bars';
+        body.style.overflow = '';
+    }
 });
 </script>
 <!-- ...existing code... -->
@@ -235,4 +252,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
+
 
