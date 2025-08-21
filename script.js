@@ -143,4 +143,70 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Run once on page load
+
+});
+
+
+
+
+
+
+// Mobile Navigation Script
+document.addEventListener('DOMContentLoaded', function() {
+    // Create mobile menu button if it doesn't exist
+    if (!document.querySelector('.mobile-menu')) {
+        const mobileMenuBtn = document.createElement('div');
+        mobileMenuBtn.className = 'mobile-menu';
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        document.querySelector('.header .container').appendChild(mobileMenuBtn);
+    }
+    
+    // Toggle mobile navigation
+    const mobileMenuBtn = document.querySelector('.mobile-menu');
+    const nav = document.querySelector('.nav');
+    
+    mobileMenuBtn.addEventListener('click', function() {
+        nav.classList.toggle('active');
+        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        
+        // Change icon based on menu state
+        const icon = this.querySelector('i');
+        if (nav.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+        } else {
+            icon.className = 'fas fa-bars';
+        }
+    });
+    
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('.nav ul li a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            nav.classList.remove('active');
+            document.body.style.overflow = '';
+            mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.nav') && !event.target.closest('.mobile-menu')) {
+            nav.classList.remove('active');
+            document.body.style.overflow = '';
+            if (mobileMenuBtn.querySelector('i')) {
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            }
+        }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            nav.classList.remove('active');
+            document.body.style.overflow = '';
+            if (mobileMenuBtn.querySelector('i')) {
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            }
+        }
+    });
 });
